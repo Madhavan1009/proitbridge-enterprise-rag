@@ -30,6 +30,7 @@ class Settings(BaseSettings):
         "http://localhost:5173",
         "http://localhost:5174",
         "http://localhost:3000",
+        "https://proitbridge-enterprise-rag.vercel.app",
     ]
 
     # ── Pinecone ─────────────────────────────────────────────────────────

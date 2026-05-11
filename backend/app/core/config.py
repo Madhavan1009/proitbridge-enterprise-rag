@@ -35,7 +35,7 @@ class Settings(BaseSettings):
     # ── Pinecone ─────────────────────────────────────────────────────────
     PINECONE_API_KEY: str = ""
     PINECONE_INDEX_NAME: str = "enterprise-rag"
-    PINECONE_DIMENSION: int = 384
+    PINECONE_DIMENSION: int = 768
     PINECONE_METRIC: str = "cosine"
 
     # ── Gemini ───────────────────────────────────────────────────────────
@@ -49,8 +49,8 @@ class Settings(BaseSettings):
     SUPABASE_KEY: str = ""
 
     # ── Embedding ────────────────────────────────────────────────────────
-    EMBEDDING_MODEL: str = "BAAI/bge-small-en-v1.5"
-    EMBEDDING_DIMENSION: int = 384
+    EMBEDDING_MODEL: str = "models/text-embedding-004"  # Gemini Cloud API
+    EMBEDDING_DIMENSION: int = 768
 
     # ── Chunking ─────────────────────────────────────────────────────────
     CHUNK_SIZE: int = 500

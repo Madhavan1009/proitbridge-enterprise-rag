@@ -1,0 +1,34 @@
+# ─── Render Deployment Configuration ─────────────────────────────────────────
+# https://render.com/docs/yaml-spec
+
+services:
+  - type: web
+    name: proitbridge-rag-backend
+    runtime: docker
+    repo: https://github.com/YOUR_USERNAME/RAG_Production_Project
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    region: oregon
+    plan: starter
+
+    envVars:
+      - key: PINECONE_API_KEY
+        sync: false
+      - key: PINECONE_INDEX_NAME
+        value: enterprise-rag
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: ENVIRONMENT
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: CORS_ORIGINS
+        value: '["https://your-frontend-domain.netlify.app","http://localhost:5173"]'
+
+    healthCheckPath: /api/health
+    numInstances: 1
+    autoDeploy: true

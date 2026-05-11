@@ -41,14 +41,9 @@ async def lifespan(app: FastAPI):
     # Verify database connectivity
     await init_database()
 
-    # Pre-load the embedding model (avoids cold-start on first request)
-    try:
-        from app.rag.embeddings import _get_model
-        _get_model()
-        logger.info("Embedding model pre-loaded successfully")
-    except Exception as e:
-        logger.warning(f"Embedding model pre-load failed (will retry on first use): {e}")
-
+    # Pre-loading of the embedding model is disabled here because it causes 
+    # Render's free tier to time out during boot (takes > 4 mins). 
+    # It will now lazy-load on the first request instead.
     logger.info("Application startup complete ✓")
 
     yield  # ── Application runs here ─────────────────────────────────────

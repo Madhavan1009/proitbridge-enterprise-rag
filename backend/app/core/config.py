@@ -30,7 +30,7 @@ class Settings(BaseSettings):
 
     # ── Pinecone ─────────────────────────────────────────────────────────
     PINECONE_API_KEY: str = ""
-    PINECONE_INDEX_NAME: str = "enterprise-rag-v2"
+    PINECONE_INDEX_NAME: str = "enterprise-rag"
     PINECONE_DIMENSION: int = 768
     PINECONE_METRIC: str = "cosine"
 

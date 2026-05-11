@@ -61,13 +61,14 @@ async def health_check():
     except Exception as e:
         services["gemini"] = f"error: {str(e)[:80]}"
 
-    # Check embedding model
+    # Check embedding model (Gemini Cloud API)
     try:
-        from app.rag.embeddings import _get_model
-        model = _get_model()
-        services["embeddings"] = f"loaded ({settings.EMBEDDING_MODEL})"
+        if settings.GEMINI_API_KEY:
+            services["embeddings"] = f"cloud-ready ({settings.EMBEDDING_MODEL})"
+        else:
+            services["embeddings"] = "not configured"
     except Exception as e:
-        services["embeddings"] = f"not loaded: {str(e)[:80]}"
+        services["embeddings"] = f"error: {str(e)[:80]}"
 
     # Overall status
     all_ok = all("error" not in v and "not " not in v for v in services.values())

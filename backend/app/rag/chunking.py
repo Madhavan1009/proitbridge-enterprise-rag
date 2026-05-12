@@ -65,7 +65,7 @@ def create_chunks(
                 "metadata": {
                     "document_id": document_id,
                     "document_name": document_name,
-                    "page_number": page_number,
+                    "page_number": page_number if page_number is not None else 0,
                     "chunk_index": idx,
                     "uploaded_at": now,
                     "text": chunk_text,  # Store text in metadata for retrieval

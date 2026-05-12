@@ -4,6 +4,7 @@ This replaces the local SentenceTransformer to save RAM and allow
 deployment on Render's 512MB free tier.
 """
 
+import time
 from typing import List
 import google.generativeai as genai
 
@@ -24,18 +25,25 @@ def generate_embeddings(texts: List[str], is_query: bool = False) -> List[List[f
     
     embeddings = []
     
-    # Process in chunks to avoid API limits if texts is large
-    # For small arrays, just process them directly.
     try:
-        for text in texts:
-            # For Gemini embedding, text must be string
+        # Process in batches to avoid rate limit (429 ResourceExhausted) on free tier
+        batch_size = 90  # Keep it slightly below 100 just to be safe
+        for i in range(0, len(texts), batch_size):
+            batch_texts = texts[i:i + batch_size]
+            
             response = genai.embed_content(
                 model=settings.EMBEDDING_MODEL,
-                content=text,
+                content=batch_texts,
                 task_type=task_type,
                 output_dimensionality=settings.EMBEDDING_DIMENSION
             )
-            embeddings.append(response['embedding'])
+            
+            # response['embedding'] returns a list of embeddings when content is a list of strings
+            embeddings.extend(response['embedding'])
+            
+            if i + batch_size < len(texts):
+                # Small sleep between batches to avoid rapid burst rate limits
+                time.sleep(1)
             
         logger.info(
             f"Generated {len(embeddings)} embeddings "

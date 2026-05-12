@@ -45,7 +45,7 @@ class Settings(BaseSettings):
     SUPABASE_KEY: str = ""
 
     # ── Embedding ────────────────────────────────────────────────────────
-    EMBEDDING_MODEL: str = "models/text-embedding-004"  # Gemini Cloud API
+    EMBEDDING_MODEL: str = "models/gemini-embedding-001"  # Gemini Cloud API
     EMBEDDING_DIMENSION: int = 768
 
     # ── Chunking ─────────────────────────────────────────────────────────

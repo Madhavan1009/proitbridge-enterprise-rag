@@ -25,25 +25,7 @@ def get_pinecone_index():
 
         pc = Pinecone(api_key=settings.PINECONE_API_KEY)
 
-        # Create index if it doesn't exist
-        existing_indexes = [idx.name for idx in pc.list_indexes()]
-        if settings.PINECONE_INDEX_NAME not in existing_indexes:
-            logger.info(
-                f"Creating Pinecone index '{settings.PINECONE_INDEX_NAME}' "
-                f"(dim={settings.PINECONE_DIMENSION}, metric={settings.PINECONE_METRIC})"
-            )
-            import time
-            pc.create_index(
-                name=settings.PINECONE_INDEX_NAME,
-                dimension=settings.PINECONE_DIMENSION,
-                metric=settings.PINECONE_METRIC,
-                spec=ServerlessSpec(cloud="aws", region="us-east-1"),
-            )
-            # Wait for index to be ready (otherwise first upsert fails)
-            logger.info(f"Waiting for index '{settings.PINECONE_INDEX_NAME}' to be ready...")
-            while not pc.describe_index(settings.PINECONE_INDEX_NAME).status.ready:
-                time.sleep(1)
-            logger.info("Index is ready ✓")
+
 
         _index = pc.Index(settings.PINECONE_INDEX_NAME)
         stats = _index.describe_index_stats()

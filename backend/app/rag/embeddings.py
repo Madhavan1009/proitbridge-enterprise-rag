@@ -30,9 +30,10 @@ def generate_embeddings(texts: List[str], is_query: bool = False) -> List[List[f
         for text in texts:
             # For Gemini embedding, text must be string
             response = genai.embed_content(
-                model="models/text-embedding-004",
+                model=settings.EMBEDDING_MODEL,
                 content=text,
-                task_type=task_type
+                task_type=task_type,
+                output_dimensionality=settings.EMBEDDING_DIMENSION
             )
             embeddings.append(response['embedding'])
             
